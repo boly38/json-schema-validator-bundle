@@ -1,14 +1,14 @@
 json-schema-validator-bundle
 ============================
 
-json-schema-validator issue#111 proposal
+[json-schema-validator](https://github.com/fge/json-schema-validator) [issue#111](https://github.com/fge/json-schema-validator/issues/111) proposal
 
-Try to make an OSGi'fyed version (bundle) of [json-schema-validator](https://github.com/fge/json-schema-validator)
+Try to make an OSGi'fyed version (bundle) of json-schema-validator.
 
 Howto
 =====
 
-install required osgi bundles :
+* install required osgi bundles :
 
         btf-1.2
         jackson-annotations-2.4.1.jar
@@ -26,10 +26,12 @@ install required osgi bundles :
         json-schema-core-1.2.4.jar
         json-schema-validator-2.2.5.jar
 
-build and install this bundle
+* build and install json-schema-validator-bundle
+
 
 usage example:
-
+==============
+```
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY, policy = ReferencePolicy.DYNAMIC)
     protected JsonValidatorService jsonValidator;
     
@@ -39,8 +41,9 @@ usage example:
         String jsonSchema = "msgversion.schema.json";
         return jsonValidator.isJsonValid(jsonMessage, jsonSchemaDir, jsonSchema);
     }
+```
 
-
-related issues :
-- [json-schema-validator issues #111](https://github.com/fge/json-schema-validator/issues/111)
-- [blog post](http://curiositedevie.blogspot.fr/2014/08/use-json-schema-validator-as-osgi-bundle.html)
+references :
+============
+* [json-schema-validator issues #111](https://github.com/fge/json-schema-validator/issues/111)
+* [blog post](http://curiositedevie.blogspot.fr/2014/08/use-json-schema-validator-as-osgi-bundle.html)
