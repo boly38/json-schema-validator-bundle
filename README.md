@@ -18,13 +18,19 @@ Howto
         guava-16.0.1.jar
         uri-template-0.9.jar
         jackson-coreutils-1.8.jar
-        rhino-1.7R4.jar
-        libphonenumber-6.0.jar
         mailapi-1.4.3.jar
         jopt-simple-4.8-SNAPSHOT.jar
         joda-time-2.3.jar
         json-schema-core-1.2.4.jar
         json-schema-validator-2.2.5.jar
+
+        [ Updated deps OSGi'fyed jar version ; waiting for issue ] 
+
+        rhino-1.7R4.jar (cf. updated_deps/ )
+            issues : https://github.com/mozilla/rhino/issues/86 
+
+        libphonenumber-6.0.jar (updated version embedded in this project)
+            https://code.google.com/p/libphonenumber/issues/detail?id=205 
 
 * build and install json-schema-validator-bundle
 

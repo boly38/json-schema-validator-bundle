@@ -8,12 +8,15 @@
 	<version>2.2.5</version>
 	<packaging>bundle</packaging>
 
-    <developers>
-        <developer>
-            <name>Brice VANDEPUTTE</name>
-            <email>boly38@gmail.com</email>
-        </developer>
-    </developers>
+	<developers>
+		<developer>
+			<name>Gábor Bakos</name>
+		</developer>
+		<developer>
+			<name>Brice VANDEPUTTE</name>
+			<email>boly38@gmail.com</email>
+		</developer>
+	</developers>
 
 
 	<properties>
@@ -34,6 +37,8 @@
 			<version>2.2.5</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- <dependency> <groupId>com.googlecode.libphonenumber</groupId> <artifactId>libphonenumber</artifactId> 
+			<version>6.0</version> </dependency> -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
@@ -113,7 +118,6 @@
 			<artifactId>fest-assert</artifactId>
 			<version>${festassert.version}</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -168,8 +172,16 @@
 					<source>1.6</source>
 					<target>1.6</target>
 					<instructions>
-						<Bundle-Author>Brice VANDEPUTTE</Bundle-Author>
+						<Bundle-Author>Gábor Bakos, Brice Vandeputte</Bundle-Author>
 						<Bundle-Version>${project.version}</Bundle-Version>
+						<Bundle-ClassPath>.,{maven-dependencies},libphonenumber-6.0.jar</Bundle-ClassPath>
+						<Embed-Dependency>libphonenumber</Embed-Dependency>
+						<Include-Resource>{maven-resources},{maven-dependencies},
+							libphonenumber-6.0.jar=src/main/resources/libphonenumber-6.0.jar</Include-Resource>
+						<Export-Package>
+							com.github.jsonschemavalidator;version="${project.version}",
+							com.google.i18n.phonenumbers;version="6.0"
+						</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>
