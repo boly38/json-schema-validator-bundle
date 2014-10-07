@@ -29,7 +29,7 @@ Howto
         rhino-1.7R4.jar (cf. updated_deps/ )
             issues : https://github.com/mozilla/rhino/issues/86 
 
-        libphonenumber-6.0.jar (updated version embedded in this project)
+        libphonenumber-6.3.jar (inlined in this project)
             https://code.google.com/p/libphonenumber/issues/detail?id=205 
 
 * build and install json-schema-validator-bundle
