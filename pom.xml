@@ -18,8 +18,15 @@
 		</developer>
 	</developers>
 
-
 	<properties>
+        <!--General project configuration -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project-home>${project.artifactId}</project-home>
+
+        <!-- build info -->
+        <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
+        <build.version>${maven.build.timestamp}</build.version>
+
 		<commons-logging.version>1.1.1</commons-logging.version>
 		<felix.scr.annotations.version>1.9.6</felix.scr.annotations.version>
 		<pax.version>1.7.2</pax.version>
@@ -31,14 +38,58 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.github.fge</groupId>
-			<artifactId>json-schema-validator</artifactId>
-			<version>2.2.5</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- <dependency> <groupId>com.googlecode.libphonenumber</groupId> <artifactId>libphonenumber</artifactId> 
-			<version>6.0</version> </dependency> -->
+        <!-- json-validator deps -->
+        <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>jackson-coreutils</artifactId>
+            <version>1.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>json-schema-core</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>btf</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>msg-simple</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>16.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mailapi</artifactId>
+            <version>1.4.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.libphonenumber</groupId>
+            <artifactId>libphonenumber</artifactId>
+            <version>6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>uri-template</artifactId>
+            <version>0.9</version>
+        </dependency>
+
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
@@ -100,6 +151,14 @@
 		</dependency>
 
 		<!-- Tests -->
+        <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>2.2.5</version>
+        </dependency>
+
+
+
 		<!-- JUnit -->
 		<dependency>
 			<groupId>junit</groupId>
