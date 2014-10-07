@@ -35,10 +35,21 @@
 		<festassert.version>1.4</festassert.version>
 		<maven.bundle.plugin.version>2.3.6</maven.bundle.plugin.version>
 		<maven-scr-plugin.version>1.15.0</maven-scr-plugin.version>
+		<libphonenumber.version>6.3</libphonenumber.version>
 	</properties>
 
-	<dependencies>
-        <!-- json-validator deps -->
+    <dependencies>
+        <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>2.2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.libphonenumber</groupId>
+            <artifactId>libphonenumber</artifactId>
+            <version>${libphonenumber.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.github.fge</groupId>
             <artifactId>jackson-coreutils</artifactId>
@@ -80,170 +91,155 @@
             <version>1.4.3</version>
         </dependency>
         <dependency>
-            <groupId>com.googlecode.libphonenumber</groupId>
-            <artifactId>libphonenumber</artifactId>
-            <version>6.0</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.fge</groupId>
             <artifactId>uri-template</artifactId>
             <version>0.9</version>
         </dependency>
-
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.2.4</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.core</artifactId>
-			<version>4.2.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.compendium</artifactId>
-			<version>4.2.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-httpclient</groupId>
-			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
-			<scope>provided</scope>
-		</dependency>
-
-
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>${commons-logging.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.4</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.scr.annotations</artifactId>
-			<version>${felix.scr.annotations.version}</version>
-		</dependency>
-
-
-		<!-- log -->
-		<dependency>
-			<groupId>org.ops4j.pax.logging</groupId>
-			<artifactId>pax-logging-service</artifactId>
-			<version>${pax.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- Tests -->
         <dependency>
-            <groupId>com.github.fge</groupId>
-            <artifactId>json-schema-validator</artifactId>
-            <version>2.2.5</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>4.2.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.compendium</artifactId>
+            <version>4.2.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+            <scope>provided</scope>
         </dependency>
 
 
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>${commons-logging.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.4</version>
+            <scope>provided</scope>
+        </dependency>
 
-		<!-- JUnit -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.easytesting</groupId>
-			<artifactId>fest-assert</artifactId>
-			<version>${festassert.version}</version>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.scr.annotations</artifactId>
+            <version>${felix.scr.annotations.version}</version>
+        </dependency>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.felix</groupId>
-					<artifactId>maven-scr-plugin</artifactId>
-					<version>${maven-scr-plugin.version}</version>
-					<executions>
-						<execution>
-							<id>default-scr</id>
-							<phase>process-classes</phase>
-							<goals>
-								<goal>scr</goal>
-							</goals>
-							<configuration>
-								<parseJavadoc>true</parseJavadoc>
-								<processAnnotations>true</processAnnotations>
-								<specVersion>1.1</specVersion>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.felix</groupId>
-					<artifactId>maven-bundle-plugin</artifactId>
-					<version>${maven.bundle.plugin.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 
-		<resources>
-			<resource>
-				<directory>src/main/resource</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/*.properties</include>
-				</includes>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-scr-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<instructions>
-						<Bundle-Author>Gábor Bakos, Brice Vandeputte</Bundle-Author>
-						<Bundle-Version>${project.version}</Bundle-Version>
-						<Bundle-ClassPath>.,{maven-dependencies},libphonenumber-6.0.jar</Bundle-ClassPath>
-						<Embed-Dependency>libphonenumber</Embed-Dependency>
-						<Include-Resource>{maven-resources},{maven-dependencies},
-							libphonenumber-6.0.jar=src/main/resources/libphonenumber-6.0.jar</Include-Resource>
-						<Export-Package>
-							com.github.jsonschemavalidator;version="${project.version}",
-							com.google.i18n.phonenumbers;version="6.0"
-						</Export-Package>
-					</instructions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+        <!-- log -->
+        <dependency>
+            <groupId>org.ops4j.pax.logging</groupId>
+            <artifactId>pax-logging-service</artifactId>
+            <version>${pax.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Tests -->
+        <!-- JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-assert</artifactId>
+            <version>${festassert.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-scr-plugin</artifactId>
+                    <version>${maven-scr-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>default-scr</id>
+                            <phase>process-classes</phase>
+                            <goals>
+                                <goal>scr</goal>
+                            </goals>
+                            <configuration>
+                                <parseJavadoc>true</parseJavadoc>
+                                <processAnnotations>true</processAnnotations>
+                                <specVersion>1.1</specVersion>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>${maven.bundle.plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <resources>
+            <resource>
+                <directory>src/main/resource</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-scr-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <instructions>
+                        <Bundle-Author>Gábor Bakos, Brice Vandeputte</Bundle-Author>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+                        <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+                        <Embed-Dependency>libphonenumber;inline=true</Embed-Dependency>
+                        <Include-Resource>{maven-resources}</Include-Resource>
+                        <Export-Package>
+                            com.github.jsonschemavalidator;version="${project.version}",
+                            com.google.i18n.phonenumbers;version="6.3"
+                        </Export-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -1,0 +1,19 @@
+{
+   "$schema": "http://json-schema.org/draft-04/schema#",
+   "description":"folder and phone number",
+   "type":"object",
+   "required":[
+      "folder"
+   ],
+   "properties":{
+      "folder":{
+         "description":"Folder path",
+         "type":"string",
+         "pattern": "^/[^/]+?(/[^/]+?)*$"
+      },
+      "phone":{
+         "type":"string",
+         "format":"phone"
+      }
+   }
+}
