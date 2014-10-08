@@ -39,43 +39,37 @@ public class JsonValidator implements JsonValidatorService {
         bcontext = context.getBundleContext();
     }
 
-    private JsonSchemaFactory getJsonSchemaFactory() {
-        // find the bundle you need:
-        String targetBundleSN = "com.github.fge.json-schema-core"; // com.github.fge.json-schema-validator";
-        Bundle selected = findBundleBySymbolicName(targetBundleSN);
-        if (selected == null) {
-            LOG.debug("get JsonSchemaFactory without bundle"); // unit test case
-            return JsonSchemaFactory.byDefault();
+    private ProcessingReport jsonSchemaValidation(JsonNode jsonSchemaNode,
+            final JsonNode jsonMessageNode) throws ProcessingException {
+
+        if (bcontext == null) { //  unit test case
+            LOG.debug("jsonSchemaValidationAction without class loader switch"); 
+            return jsonSchemaValidationAction(jsonSchemaNode, jsonMessageNode);
         }
-        ClassLoader specialClassLoader = selected.getClass().getClassLoader();
+
+        // OSGi context: need to switch ClassLoader to access 
+        // bundle resources
+
+        ClassLoader specialClassLoader = bcontext.getBundle().getClass()
+                .getClassLoader();
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
         try {
-            BundleClassLoader loaderToUse = new BundleClassLoader(
-                    specialClassLoader, selected);
-            Thread.currentThread().setContextClassLoader(loaderToUse);
-            final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
-            return factory;
+            LOG.debug("jsonSchemaValidationAction with a dedicated class loader");
+            BundleClassLoader schemaCoreClassLoader = new BundleClassLoader(
+                    specialClassLoader, bcontext.getBundle());
+            Thread.currentThread().setContextClassLoader(schemaCoreClassLoader);
+            return jsonSchemaValidationAction(jsonSchemaNode, jsonMessageNode);
         } finally {
             Thread.currentThread().setContextClassLoader(cl);
         }
     }
 
-    private Bundle findBundleBySymbolicName(String targetBundleSN) {
-        Bundle selected = null;
-        Bundle[] osgiBundles = bcontext != null ? bcontext.getBundles() : null;
-        if (osgiBundles == null) {
-            return null;
-        }
-        for (Bundle bundle : osgiBundles) {
-            String bundleSN = bundle.getSymbolicName();
-            if (targetBundleSN.equals(bundleSN)) {
-                selected = bundle;
-                break;
-            }
-            // LOG.debug("bundle => " + bundleSN);
-        }
-        LOG.debug("bundle *found* => " + selected.getSymbolicName());
-        return selected;
+    ProcessingReport jsonSchemaValidationAction(final JsonNode jsonSchemaNode,
+            final JsonNode jsonMessageNode)
+            throws ProcessingException {
+        JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
+        final JsonSchema schema = factory.getJsonSchema(jsonSchemaNode);
+        return schema.validate(jsonMessageNode);
     }
 
     public ProcessingReport jsonValidation(String jsonMessage,
@@ -84,17 +78,13 @@ public class JsonValidator implements JsonValidatorService {
         final JsonNode jsonSchemaNode = loadResource(jsonSchemaDir, jsonSchema);
         // LOG.debug("schema loaded : " + jsonSchemaNode.toString());
         final JsonNode jsonMessageNode = JsonLoader.fromString(jsonMessage);
-        final JsonSchemaFactory factory = getJsonSchemaFactory();
-        final JsonSchema schema = factory.getJsonSchema(jsonSchemaNode);
-        return schema.validate(jsonMessageNode);
+        return jsonSchemaValidation(jsonSchemaNode, jsonMessageNode);
     }
 
     public ProcessingReport jsonValidation(String jsonMessage,
             JsonNode jsonSchemaNode) throws ProcessingException, IOException {
         final JsonNode jsonMessageNode = JsonLoader.fromString(jsonMessage);
-        final JsonSchemaFactory factory = getJsonSchemaFactory();
-        final JsonSchema schema = factory.getJsonSchema(jsonSchemaNode);
-        return schema.validate(jsonMessageNode);
+        return jsonSchemaValidation(jsonSchemaNode, jsonMessageNode);
     }
 
     public boolean isJsonValid(String jsonMessage, JsonNode jsonSchemaNode) {
@@ -155,37 +145,43 @@ public class JsonValidator implements JsonValidatorService {
         }
     }
 
-
     /**
-     * Load one storage resource
-     *  search in Filesystem first and then in the current bundle resources 
-     * @param name name of the resource
-     * @param relativePath relative path directory of the resource
+     * Load one storage resource search in Filesystem first and then in the
+     * current bundle resources
+     * 
+     * @param name
+     *            name of the resource
+     * @param relativePath
+     *            relative path directory of the resource
      * @return a JSON document
-     * @throws IOException resource not found
+     * @throws IOException
+     *             resource not found
      */
     public JsonNode loadResource(final String relativePath, final String name)
-        throws IOException {
+            throws IOException {
         Bundle bundleToSearch = bcontext == null ? null : bcontext.getBundle();
         return loadResource(relativePath, name, bundleToSearch);
     }
 
     /**
-     * Load one storage resource
-     *  search in Filesystem first and then in the given bundle resources 
-     *
-     * @param relativePath relative path directory of the resource
-     * @param name name of the resource
-     * @param bundle bundle to search in
+     * Load one storage resource search in Filesystem first and then in the
+     * given bundle resources
+     * 
+     * @param relativePath
+     *            relative path directory of the resource
+     * @param name
+     *            name of the resource
+     * @param bundle
+     *            bundle to search in
      * @return a JSON document
-     * @throws IOException resource not found
+     * @throws IOException
+     *             resource not found
      */
-    public JsonNode loadResource(final String relativePath, final String name, Bundle bundle)
-        throws IOException {
+    public JsonNode loadResource(final String relativePath, final String name,
+            Bundle bundle) throws IOException {
         String schemaFullFilename = relativePath;
-        if (!relativePath.endsWith("/")
-          &&!relativePath.endsWith("\\")) {
-            schemaFullFilename += File.separator; 
+        if (!relativePath.endsWith("/") && !relativePath.endsWith("\\")) {
+            schemaFullFilename += File.separator;
         }
         schemaFullFilename += name;
 
