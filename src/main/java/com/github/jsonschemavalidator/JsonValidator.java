@@ -17,6 +17,9 @@ import org.osgi.service.component.ComponentContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.report.ListReportProvider;
+import com.github.fge.jsonschema.core.report.LogLevel;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
@@ -40,11 +43,11 @@ public class JsonValidator implements JsonValidatorService {
     }
 
     private ProcessingReport jsonSchemaValidation(JsonNode jsonSchemaNode,
-            final JsonNode jsonMessageNode) throws ProcessingException {
+            final String jsonMessage) throws ProcessingException {
 
         if (bcontext == null) { //  unit test case
             LOG.debug("jsonSchemaValidationAction without class loader switch"); 
-            return jsonSchemaValidationAction(jsonSchemaNode, jsonMessageNode);
+            return jsonSchemaValidationAction(jsonSchemaNode, jsonMessage);
         }
 
         // OSGi context: need to switch ClassLoader to access 
@@ -58,18 +61,35 @@ public class JsonValidator implements JsonValidatorService {
             BundleClassLoader schemaCoreClassLoader = new BundleClassLoader(
                     specialClassLoader, bcontext.getBundle());
             Thread.currentThread().setContextClassLoader(schemaCoreClassLoader);
-            return jsonSchemaValidationAction(jsonSchemaNode, jsonMessageNode);
+            return jsonSchemaValidationAction(jsonSchemaNode, jsonMessage);
         } finally {
             Thread.currentThread().setContextClassLoader(cl);
         }
     }
 
     ProcessingReport jsonSchemaValidationAction(final JsonNode jsonSchemaNode,
-            final JsonNode jsonMessageNode)
+            final String jsonMessage)
             throws ProcessingException {
+        JsonNode jsonMessageNode = null;
+        try {
+            jsonMessageNode = JsonLoader.fromString(jsonMessage);
+        } catch (IOException e) {
+            return produceErrorReport(e.getMessage());
+        }
         JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
         final JsonSchema schema = factory.getJsonSchema(jsonSchemaNode);
         return schema.validate(jsonMessageNode);
+    }
+
+
+
+    ProcessingReport produceErrorReport(String basicError)
+            throws ProcessingException {
+        ListReportProvider reportProvider = new ListReportProvider(LogLevel.INFO, LogLevel.FATAL);
+        ProcessingReport notValidJsonReport = reportProvider.newReport(LogLevel.INFO, LogLevel.FATAL);
+        notValidJsonReport.error(new ProcessingMessage().setMessage(basicError)
+                .put("domain", "syntax"));
+        return notValidJsonReport;
     }
 
     public ProcessingReport jsonValidation(String jsonMessage,
@@ -77,14 +97,12 @@ public class JsonValidator implements JsonValidatorService {
             throws ProcessingException, IOException {
         final JsonNode jsonSchemaNode = loadResource(jsonSchemaDir, jsonSchema);
         // LOG.debug("schema loaded : " + jsonSchemaNode.toString());
-        final JsonNode jsonMessageNode = JsonLoader.fromString(jsonMessage);
-        return jsonSchemaValidation(jsonSchemaNode, jsonMessageNode);
+        return jsonSchemaValidation(jsonSchemaNode, jsonMessage);
     }
 
     public ProcessingReport jsonValidation(String jsonMessage,
             JsonNode jsonSchemaNode) throws ProcessingException, IOException {
-        final JsonNode jsonMessageNode = JsonLoader.fromString(jsonMessage);
-        return jsonSchemaValidation(jsonSchemaNode, jsonMessageNode);
+        return jsonSchemaValidation(jsonSchemaNode, jsonMessage);
     }
 
     public boolean isJsonValid(String jsonMessage, JsonNode jsonSchemaNode) {
@@ -130,7 +148,6 @@ public class JsonValidator implements JsonValidatorService {
         }
     }
 
-    @Override
     public boolean isWellFormattedJsonData(String jsonMessage) {
         // avoid NPE
         if (jsonMessage == null || jsonMessage.isEmpty()) {
