@@ -21,10 +21,10 @@ Howto
 
         [ Updated deps OSGi'fyed jar version ; waiting for issue ] 
 
-        rhino-1.7R4.jar (cf. updated_deps/ )
-            issues : https://github.com/mozilla/rhino/issues/86 
+        rhino-1.7R4.jar (cf. updated_deps/ ) [2]
 
     * [[1] oss.sonatype.org](https://oss.sonatype.org/#nexus-search;quick~jopt-simple)
+    * [[2] rhino/issues/86](https://github.com/mozilla/rhino/issues/86)
 
 * following deps are inlined in this project :
 
