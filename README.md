@@ -16,7 +16,7 @@ Howto
         jackson-databind-2.4.1.3.jar
         guava-16.0.1.jar
         mailapi-1.4.3.jar
-        jopt-simple-4.8-SNAPSHOT.jar
+        jopt-simple-4.8-beta-1 [1]
         joda-time-2.3.jar
 
         [ Updated deps OSGi'fyed jar version ; waiting for issue ] 
@@ -24,6 +24,7 @@ Howto
         rhino-1.7R4.jar (cf. updated_deps/ )
             issues : https://github.com/mozilla/rhino/issues/86 
 
+    * [[1] oss.sonatype.org](https://oss.sonatype.org/#nexus-search;quick~jopt-simple)
 
 * following deps are inlined in this project :
 
