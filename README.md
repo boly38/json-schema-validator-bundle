@@ -23,9 +23,6 @@ Howto
 
         rhino-1.7R4.jar (cf. updated_deps/ ) [2]
 
-    * [[1] oss.sonatype.org](https://oss.sonatype.org/#nexus-search;quick~jopt-simple)
-    * [[2] rhino/issues/86](https://github.com/mozilla/rhino/issues/86)
-
 * following deps are inlined in this project :
 
         msg-simple-1.1.jar
@@ -33,8 +30,12 @@ Howto
         jackson-coreutils-1.8.jar
         json-schema-core-1.2.4.jar
         json-schema-validator-2.2.5.jar
-        libphonenumber-6.3.jar (inlined in this project)
-            https://code.google.com/p/libphonenumber/issues/detail?id=205 
+        libphonenumber-6.3.jar (inlined in this project) [3]
+
+* references             
+    * [[1] jopt-simple @oss.sonatype.org](https://oss.sonatype.org/#nexus-search;quick~jopt-simple)
+    * [[2] rhino/issues/86](https://github.com/mozilla/rhino/issues/86)
+    * [[3] libphonenumber/issues 205](https://code.google.com/p/libphonenumber/issues/detail?id=205)
 
 
 * build and install json-schema-validator-bundle
