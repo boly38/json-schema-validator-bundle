@@ -9,3 +9,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+json-schema-validator-bundle/.classpath
+json-schema-validator-bundle/.project
+json-schema-validator-bundle/.settings/org.eclipse.jdt.core.prefs
+json-schema-validator-bundle/.settings/org.eclipse.m2e.core.prefs
+.settings/org.eclipse.m2e.core.prefs
+/target/

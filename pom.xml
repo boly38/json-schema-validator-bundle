@@ -2,10 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.github.json-schema-validator</groupId>
 	<artifactId>json-schema-validator-bundle</artifactId>
 	<name>json-schema-validator :: Bundle</name>
-	<version>2.2.5</version>
 	<packaging>bundle</packaging>
 
 	<developers>
@@ -185,6 +183,27 @@
 					</instructions>
 				</configuration>
 			</plugin>
+			<!-- Necessary addition to generate the source jar too. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
+	<parent>
+		<groupId>com.github.json-schema-validator</groupId>
+		<artifactId>json-schema-validator-bundle-parent</artifactId>
+		<version>2.2.5</version>
+		<relativePath>parent</relativePath>
+	</parent>
 </project>
