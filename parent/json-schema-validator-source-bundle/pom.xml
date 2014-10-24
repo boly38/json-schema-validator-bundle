@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.github.json-schema-validator</groupId>
+    <artifactId>json-schema-validator-bundle-parent</artifactId>
+    <version>2.2.5</version>
+  </parent>
+  <artifactId>json-schema-validator-source-bundle</artifactId>
+  <packaging>bundle</packaging>
+  <name>json-schema-validator :: Source bundle</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.github.json-schema-validator</groupId>
+  		<artifactId>${bundle.name}</artifactId>
+  		<version>${bundle.version}</version>
+  		<type>bundle</type>
+    	<!-- Get the source code project -->
+    	<classifier>sources</classifier>
+  	</dependency>
+  </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                        <Bundle-SymbolicName>${bundle.name}.source</Bundle-SymbolicName>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+                        <!-- This defines the bundle we provide the source for -->
+                        <Eclipse-SourceBundle>${bundle.name};version="${bundle.version}";roots:="."</Eclipse-SourceBundle>
+                        <!-- Extract all sources into this bundle -->
+                        <Embed-Dependency>classifier=sources;inline=true</Embed-Dependency>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+    	<bundle.name>json-schema-validator-bundle</bundle.name>
+    	<bundle.version>${project.version}</bundle.version>
+    </properties>
+</project>
