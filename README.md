@@ -32,7 +32,7 @@ Howto
         libphonenumber-6.0.jar (updated version embedded in this project)
             https://code.google.com/p/libphonenumber/issues/detail?id=205 
 
-* build and install json-schema-validator-bundle
+* build and install json-schema-validator-bundle (from the `parent` folder it will create an osgi source bundle too)
 
 
 usage example:
