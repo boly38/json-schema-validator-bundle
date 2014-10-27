@@ -38,7 +38,7 @@ Howto
     * [[3] libphonenumber/issues 205](https://code.google.com/p/libphonenumber/issues/detail?id=205)
 
 
-* build and install json-schema-validator-bundle
+* build and install json-schema-validator-bundle (from the `parent` folder it will also create the source OSGi bundle)
 
 
 usage example:
